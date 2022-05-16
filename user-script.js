@@ -42,8 +42,8 @@
         let audio = ''
         let audioUrl = resJson.data.audio_download_url
         if (audioUrl) {
-          audio = `<audio><source src="./${encodeURI(title + getFileExt(audioUrl))}">
-          <source src="${resJson.data.audio_download_url}" controls></audio>`
+          audio = `<audio controls><source src="./${encodeURI(title + getFileExt(audioUrl))}">
+          <source src="${resJson.data.audio_download_url}"></audio>`
         }
 
         let data = resJson.data.article_content
