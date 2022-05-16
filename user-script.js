@@ -3,7 +3,7 @@
 // @namespace    https://github.com/Edsuns
 // @version      0.5.0
 // @description  在极客时间专栏内容页面增加一个保存按钮，点击后将正文以markdown格式下载保存
-// @author       L
+// @author       Edsuns
 // @match        *://time.geekbang.org/column/article/*
 // @grant        none
 // @require      https://unpkg.com/ajax-hook@1.8.3/dist/ajaxhook.min.js
@@ -28,8 +28,9 @@
 
         let resJson = JSON.parse(xhr.response)
 
-        let title = removeIllegalFilenameCharacters(resJson.data.article_title)
-        let titleTxt = `<h1>${title}</h1>`
+        let titleOriginal = resJson.data.article_title
+        let titleTxt = `<h1>${titleOriginal}</h1>`
+        let title = removeIllegalFilenameCharacters(titleOriginal)
 
         let createdAt = new Date(resJson.data.article_ctime * 1000).toLocaleDateString()
         let created = `<p><i>${resJson.data.author_name} | ${createdAt}</i></p>`
@@ -44,7 +45,8 @@
           <source src="${resJson.data.audio_download_url}"></audio>`
         }
 
-        let data = resJson.data.article_content.replace('<!-- [[[read_end]]] -->', '')
+        let data = resJson.data.article_content
+          .replace('<!-- [[[read_end]]] -->', '').replace('<!-- -->', '')
 
         let html = titleTxt + created + summary + img + audio + data
         const mdContent = mdService.makeMarkdown(html)
