@@ -111,7 +111,9 @@
   }
 
   function removeIllegalFilenameCharacters(filename) {
-    return filename.replaceAll(/[\\/:*?"<>|]/g, '')
+    filename = filename.replace(' | ', '｜')
+    filename = filename.replace('|', '｜')
+    return filename.replaceAll(/[\\/:*?"<>]/g, '')
   }
 
   function downloadUrl(filename, url) {
