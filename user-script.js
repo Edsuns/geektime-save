@@ -46,7 +46,11 @@
         }
 
         let data = resJson.data.article_content
-          .replace('<!-- [[[read_end]]] -->', '').replace('<!-- -->', '')
+        if (!data) {
+          addSaveBtn(true)
+          return
+        }
+        data = data.replace('<!-- [[[read_end]]] -->', '').replace('<!-- -->', '')
 
         let html = titleTxt + created + summary + img + audio + data
         const mdContent = mdService.makeMarkdown(html)
@@ -60,21 +64,26 @@
     }
   })
 
-  function addSaveBtn() {
-    let saveBtn = document.querySelector("#save_btn")
+  function addSaveBtn(disabled) {
+    let saveBtn = document.querySelector('#save_btn')
     if (!saveBtn) {
-      saveBtn = document.createElement("div")
-      saveBtn.id = "save_btn"
+      saveBtn = document.createElement('div')
+      saveBtn.id = 'save_btn'
       saveBtn.textContent = "存"
-      saveBtn.onclick = () => {
-        let title = sessionStorage.getItem(KEY_TITLE)
+      if (disabled) {
+        saveBtn.style.opacity = '0.5'
+        saveBtn.style.pointerEvents = 'none'
+      } else {
+        saveBtn.onclick = () => {
+          let title = sessionStorage.getItem(KEY_TITLE)
 
-        let filename = title + ".md"
-        createAndDownloadFile(sessionStorage.getItem(KEY_CONTENT), filename, FILE_TYPE)
+          let filename = title + ".md"
+          createAndDownloadFile(sessionStorage.getItem(KEY_CONTENT), filename, FILE_TYPE)
 
-        let audioUrl = sessionStorage.getItem(KEY_AUDIO)
-        if (audioUrl) {
-          downloadUrl(title + getFileExt(audioUrl), audioUrl)
+          let audioUrl = sessionStorage.getItem(KEY_AUDIO)
+          if (audioUrl) {
+            downloadUrl(title + getFileExt(audioUrl), audioUrl)
+          }
         }
       }
       setSaveBtnStyle(saveBtn)
