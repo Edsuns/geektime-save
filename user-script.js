@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         极客时间专栏文章和音频下载
-// @namespace    https://github.com/Edsuns
+// @namespace    https://github.com/Edsuns/geektime-save
 // @version      0.5.0
 // @description  在极客时间专栏内容页面增加一个保存按钮，点击后将正文以markdown格式下载保存，同时下载文章音频
 // @author       Edsuns
